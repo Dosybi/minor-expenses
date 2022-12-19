@@ -60,14 +60,14 @@ const Inputs = ({
                 </div>
               </div>
             </div>
-            {/* {product.isCustom ? (
+            {product.isCustom ? (
               <HiOutlineTrash
                 className="mt-6 ml-4 cursor-pointer text-3xl text-gray-400"
                 onClick={() => handleDeleteProduct(product.product)}
               />
             ) : (
               <></>
-            )} */}
+            )}
           </div>
         )
       })}

@@ -30,11 +30,11 @@ const Result = ({ amount, onButtonClick }) => {
         За год на депозите с эффективной годовой ставкой 14%, включая
         капитализацию, накопится {savings} тенге.
       </div>
-      <Button
+      {/* <Button
         label="Сохранить результат для Инстаграма"
         isPrimary
         onClick={onButtonClick}
-      />
+      /> */}
     </div>
   )
 }

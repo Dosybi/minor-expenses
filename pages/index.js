@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { toJpeg } from 'html-to-image'
+import { toPng } from 'html-to-image'
 import { useState, useRef, useCallback } from 'react'
 
 import Description from '../components/Description'
@@ -105,12 +105,12 @@ export default function Home() {
       return
     }
 
-    toJpeg(ref.current, {
+    toPng(ref.current, {
       cacheBust: true,
     })
       .then((dataUrl) => {
         const link = document.createElement('a')
-        link.download = 'my-minor-expenses.jpeg'
+        link.download = 'my-minor-expenses.png'
         link.href = dataUrl
         link.click()
       })

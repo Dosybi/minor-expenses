@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { toPng } from 'html-to-image'
+import { toJpeg } from 'html-to-image'
 import { useState, useRef, useCallback } from 'react'
 
 import Description from '../components/Description'
@@ -105,12 +105,12 @@ export default function Home() {
       return
     }
 
-    toPng(ref.current, {
+    toJpeg(ref.current, {
       cacheBust: true,
     })
       .then((dataUrl) => {
         const link = document.createElement('a')
-        link.download = 'my-image-name.png'
+        link.download = 'my-minor-expenses.jpeg'
         link.href = dataUrl
         link.click()
       })
@@ -120,7 +120,7 @@ export default function Home() {
   }, [ref])
 
   return (
-    <div className="mx-auto max-w-2xl bg-white p-4" ref={ref}>
+    <div>
       <Head>
         <title>Сколько накопится за год, если отказаться от мелких трат</title>
         <meta
@@ -130,7 +130,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="mx-auto max-w-2xl bg-white p-4" ref={ref}>
         <Description />
         <Inputs
           products={data}

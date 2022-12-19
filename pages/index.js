@@ -1,9 +1,11 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { toPng } from 'html-to-image'
+import { useState, useRef, useCallback } from 'react'
 
 import Description from '../components/Description'
 import Inputs from '../components/Inputs'
 import Result from '../components/Result'
+import Button from '../components/Button'
 
 export default function Home() {
   const [data, setData] = useState([
@@ -11,39 +13,47 @@ export default function Home() {
       product: 'Кофе',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
       product: 'Сладкое',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
       product: 'Такси',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
       product: 'Алкоголь',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
       product: 'Сигареты',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
       product: 'Фастфуд',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
     {
-      product: 'Другое',
+      product: 'Газировка',
       price: 0,
       amount: 1,
+      isCustom: false,
     },
   ])
-  const [totalWeellyExpenses, setTotalWeeklyExpenses] = useState(0)
+  const [totalWeeklyExpenses, setTotalWeeklyExpenses] = useState(0)
+  const ref = useRef(null)
 
   const handlePriceChange = (product, price) => {
     const newData = [...data]
@@ -59,6 +69,21 @@ export default function Home() {
     getTotalExpenses(data)
   }
 
+  const handleAddProduct = () => {
+    const newProduct = prompt('Название траты')
+    if (newProduct != null) {
+      const newData = [...data]
+      newData.push({
+        product: newProduct,
+        price: 0,
+        amount: 1,
+        isCustom: true,
+      })
+      setData(newData)
+      getTotalExpenses(data)
+    }
+  }
+
   const getTotalExpenses = (data) => {
     setTotalWeeklyExpenses(
       data
@@ -67,8 +92,35 @@ export default function Home() {
     )
   }
 
+  const handleDeleteProduct = (product) => {
+    const newData = [...data]
+    const productToDelete = newData.indexOf(product)
+    newData.splice(productToDelete, 1)
+    setData(newData)
+    getTotalExpenses(newData)
+  }
+
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return
+    }
+
+    toPng(ref.current, {
+      cacheBust: true,
+    })
+      .then((dataUrl) => {
+        const link = document.createElement('a')
+        link.download = 'my-image-name.png'
+        link.href = dataUrl
+        link.click()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [ref])
+
   return (
-    <div className="mx-auto max-w-2xl p-4">
+    <div className="mx-auto max-w-2xl bg-white p-4" ref={ref}>
       <Head>
         <title>Сколько накопится за год, если отказаться от мелких трат</title>
         <meta
@@ -81,11 +133,13 @@ export default function Home() {
       <main>
         <Description />
         <Inputs
-          products={data.map((item) => item.product)}
+          products={data}
           handlePriceChange={handlePriceChange}
           handleAmountChange={handleAmountChange}
+          handleDeleteProduct={handleDeleteProduct}
         />
-        <Result amount={totalWeellyExpenses} />
+        <Button label="+ Добавить трату" onClick={handleAddProduct} />
+        <Result amount={totalWeeklyExpenses} onButtonClick={onButtonClick} />
       </main>
     </div>
   )

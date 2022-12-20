@@ -55,14 +55,14 @@ export default function Home() {
   const [totalWeeklyExpenses, setTotalWeeklyExpenses] = useState(0)
   const ref = useRef(null)
 
-  const handlePriceChange = (product, price) => {
+  const handlePriceChange = (product: string, price: number) => {
     const newData = [...data]
     newData.find((item) => item.product === product).price = price
     setData(newData)
     getTotalExpenses(data)
   }
 
-  const handleAmountChange = (product, amount) => {
+  const handleAmountChange = (product: string, amount: number) => {
     const newData = [...data]
     newData.find((item) => item.product === product).amount = amount
     setData(newData)
@@ -84,7 +84,7 @@ export default function Home() {
     }
   }
 
-  const getTotalExpenses = (data) => {
+  const getTotalExpenses = (data: Array<any>) => {
     setTotalWeeklyExpenses(
       data
         .map((item) => item.price * item.amount)
@@ -92,7 +92,7 @@ export default function Home() {
     )
   }
 
-  const handleDeleteProduct = (product) => {
+  const handleDeleteProduct = (product: any) => {
     const newData = [...data]
     const productToDelete = newData.indexOf(product)
     newData.splice(productToDelete, 1)
@@ -129,7 +129,6 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className="mx-auto max-w-2xl bg-white p-4" ref={ref}>
         <Description />
         <Inputs
@@ -138,8 +137,12 @@ export default function Home() {
           handleAmountChange={handleAmountChange}
           handleDeleteProduct={handleDeleteProduct}
         />
-        <Button label="+ Добавить трату" onClick={handleAddProduct} />
-        <Result amount={totalWeeklyExpenses} onButtonClick={onButtonClick} />
+        <Button
+          label="+ Добавить трату"
+          handleClick={handleAddProduct}
+          isPrimary={true}
+        />
+        <Result amount={totalWeeklyExpenses} />
       </main>
     </div>
   )

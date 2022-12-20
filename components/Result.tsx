@@ -1,10 +1,8 @@
-import Button from './Button'
-
-const content = {
-  text: 'Приятные мелочи съедают',
+type Result = {
+  amount: number
 }
 
-const Result = ({ amount, onButtonClick }) => {
+const Result = ({ amount }: Result) => {
   const savings = Math.trunc(
     amount * 4.5 * 0.14 +
       amount * 4.5 * 2 * 0.14 +
@@ -30,11 +28,6 @@ const Result = ({ amount, onButtonClick }) => {
         За год на депозите с эффективной годовой ставкой 14%, включая
         капитализацию, накопится {savings} тенге.
       </div>
-      {/* <Button
-        label="Сохранить результат для Инстаграма"
-        isPrimary
-        onClick={onButtonClick}
-      /> */}
     </div>
   )
 }

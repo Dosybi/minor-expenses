@@ -1,11 +1,18 @@
 import { HiOutlineTrash } from 'react-icons/hi'
 
+type Inputs = {
+  products: Array<any>
+  handlePriceChange: (arg0: string, event: OmitThisParameter<any>) => void
+  handleAmountChange: (arg0: string, event: OmitThisParameter<any>) => void
+  handleDeleteProduct: (arg0: string) => void
+}
+
 const Inputs = ({
   products,
   handlePriceChange,
   handleAmountChange,
   handleDeleteProduct,
-}) => {
+}: Inputs) => {
   return (
     <div className="mb-8">
       {products.map((product) => {

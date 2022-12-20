@@ -140,7 +140,7 @@ export default function Home() {
         <Button
           label="+ Добавить трату"
           handleClick={handleAddProduct}
-          isPrimary={true}
+          isPrimary={false}
         />
         <Result amount={totalWeeklyExpenses} />
       </main>
